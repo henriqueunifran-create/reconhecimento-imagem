@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site Henrique Nazar</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .main-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .site-title {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, #a78bfa, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .btn-start {
+      background: linear-gradient(135deg, #6d28d9, #3b82f6);
+      border: none;
+      border-radius: 50px;
+      padding: 14px 40px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(109, 40, 217, 0.5);
+    }
+
+    .btn-start:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(109, 40, 217, 0.7);
+      color: #fff;
+    }
+
+    .btn-start:active {
+      transform: translateY(0);
+    }
+
+    .btn-start:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .camera-icon {
+      font-size: 1.2rem;
+      margin-right: 8px;
+    }
+
+    #webcam-container canvas {
+      border-radius: 16px;
+      border: 2px solid rgba(167, 139, 250, 0.4);
+      box-shadow: 0 0 30px rgba(109, 40, 217, 0.3);
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+    }
+
+    .webcam-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    .label-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+    }
+
+    .label-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #c4b5fd;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .label-percent {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+      float: right;
+    }
+
+    .progress {
+      height: 10px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-bar {
+      border-radius: 50px;
+      background: linear-gradient(90deg, #6d28d9, #3b82f6);
+      transition: width 0.3s ease;
+    }
+
+    .status-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 4px 14px;
+      border-radius: 50px;
+      background: rgba(167, 139, 250, 0.15);
+      color: #c4b5fd;
+      border: 1px solid rgba(167, 139, 250, 0.3);
+      letter-spacing: 1px;
+    }
+
+    .status-badge.active {
+      background: rgba(52, 211, 153, 0.15);
+      color: #6ee7b7;
+      border-color: rgba(52, 211, 153, 0.3);
+    }
+
+    .divider {
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    footer {
+      color: rgba(255,255,255,0.25);
+      font-size: 0.78rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-7">
+
+        <div class="main-card p-4 p-md-5">
+
+          <!-- Header -->
+          <div class="text-center mb-4">
+            <p class="subtitle mb-1">Inteligência Artificial</p>
+            <h1 class="site-title mb-2">Henrique Nazar</h1>
+            <span class="status-badge" id="status-badge">Aguardando câmera</span>
+          </div>
+
+          <hr class="divider my-4" />
+
+          <!-- Botão de iniciar -->
+          <div class="text-center mb-4">
+            <button class="btn btn-start" onclick="init()" id="btn-start">
+              <i class="bi bi-camera-video-fill camera-icon"></i>
+              Ativar câmera
+            </button>
+          </div>
+
+          <!-- Webcam -->
+          <div class="webcam-wrapper mb-4" id="webcam-container"></div>
+
+          <!-- Labels com barras de progresso -->
+          <div id="label-container"></div>
+
+          <hr class="divider mt-4 mb-3" />
+
+          <footer class="text-center">
+            Powered by Teachable Machine &amp; TensorFlow.js
+          </footer>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+  <script>
+    const URL = "https://teachablemachine.withgoogle.com/models/xksnIzbM3/";
+    let model, webcam, labelContainer, maxPredictions;
+
+    async function init() {
+      const btn = document.getElementById('btn-start');
+      const badge = document.getElementById('status-badge');
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Carregando...';
+
+      const modelURL = URL + "model.json";
+      const metadataURL = URL + "metadata.json";
+
+      model = await tmImage.load(modelURL, metadataURL);
+      maxPredictions = model.getTotalClasses();
+
+      const flip = true;
+      webcam = new tmImage.Webcam(300, 300, flip);
+      await webcam.setup();
+      await webcam.play();
+      window.requestAnimationFrame(loop);
+
+      document.getElementById("webcam-container").appendChild(webcam.canvas);
+
+      labelContainer = document.getElementById("label-container");
+      labelContainer.innerHTML = '';
+
+      for (let i = 0; i < maxPredictions; i++) {
+        const card = document.createElement("div");
+        card.className = "label-card";
+        card.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="label-name" id="label-name-${i}">Classe ${i + 1}</span>
+            <span class="label-percent" id="label-percent-${i}">0%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" id="progress-bar-${i}" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        `;
+        labelContainer.appendChild(card);
+      }
+
+      btn.innerHTML = '<i class="bi bi-camera-video-fill camera-icon"></i> Câmera ativa';
+      badge.textContent = 'Câmera ativa';
+      badge.classList.add('active');
+    }
+
+    async function loop() {
+      webcam.update();
+      await predict();
+      window.requestAnimationFrame(loop);
+    }
+
+    async function predict() {
+      const prediction = await model.predict(webcam.canvas);
+      for (let i = 0; i < maxPredictions; i++) {
+        const prob = prediction[i].probability;
+        const percent = (prob * 100).toFixed(1);
+        const className = prediction[i].className;
+
+        document.getElementById(`label-name-${i}`).textContent = className;
+        document.getElementById(`label-percent-${i}`).textContent = percent + '%';
+
+        const bar = document.getElementById(`progress-bar-${i}`);
+        bar.style.width = percent + '%';
+        bar.setAttribute('aria-valuenow', percent);
+      }
+    }
+  </script>
+</body>
+</html>
