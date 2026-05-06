@@ -2,7 +2,18 @@ from typing import Iterable, Tuple
 
 
 def compute_statistics(values: Iterable[float]) -> Tuple[float, float, float, float]:
-    """Return total, mean, maximum and minimum values from the input iterable."""
+    """Calcula estatísticas básicas a partir de um iterável de números.
+
+    Args:
+        values (Iterable[float]): Sequência de valores numéricos.
+
+    Returns:
+        Tuple[float, float, float, float]: tupla contendo, respectivamente,
+            o total, a média, o valor máximo e o valor mínimo.
+
+    Raises:
+        ValueError: se o iterável estiver vazio.
+    """
     values_list = list(values)
     if not values_list:
         raise ValueError("The input list must contain at least one number.")
@@ -23,4 +34,3 @@ if __name__ == "__main__":
     print("media:", mean_value)
     print("maior:", maximum)
     print("menor:", minimum)
-   

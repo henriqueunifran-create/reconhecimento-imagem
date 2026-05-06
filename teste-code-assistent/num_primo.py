@@ -1,4 +1,17 @@
 def is_prime(n):
+    """Verifica se um número inteiro é primo.
+
+    Args:
+        n (int): Número inteiro a ser verificado.
+
+    Returns:
+        bool: True se `n` for primo, False caso contrário.
+
+    Notes:
+        - Números menores ou iguais a 1 não são considerados primos.
+        - Esta função usa teste otimizado, verificando divisibilidade por 2 e 3
+          e, em seguida, por valores da forma 6k ± 1.
+    """
     if n <= 1:
         return False
     if n <= 3:
